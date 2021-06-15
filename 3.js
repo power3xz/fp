@@ -1,4 +1,4 @@
-const { keys, filter, map, curryr, get } = require("./_");
+const { keys, filter, map, curryr, get, reduce } = require("./_");
 const users = [
   { id: 1, name: "ID", age: 11 },
   {
@@ -111,3 +111,33 @@ console.log(
 );
 
 // 4. 접기 - reduce
+//   1. min, max, min_by, max_by
+const min = (data) => {
+  return reduce(data, (a, b) => {
+    return a < b ? a : b;
+  });
+};
+const max = (data) => {
+  return reduce(data, (a, b) => {
+    return a > b ? a : b;
+  });
+};
+
+const min_by = (data, iter) => {
+  return reduce(data, (a, b) => {
+    return iter(a) < iter(b) ? a : b;
+  });
+};
+const max_by = (data, iter) => {
+  return reduce(data, (a, b) => {
+    return iter(a) > iter(b) ? a : b;
+  });
+};
+
+console.log("min", min([1, 2, 35, 6, -11]));
+console.log("max", max([1, 2, 3, 5, 7, 78]));
+console.log("min_by", min_by([1, 2, 3, 4, 6, -11], Math.abs));
+console.log("max_by1", max_by([1, 2, 3, 4, 6, -11], Math.abs));
+console.log("max_by2", max_by(users, curryr(get)("age")));
+//   2. group_by, push
+//   3. count_by, inc
