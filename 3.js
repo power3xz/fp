@@ -1,6 +1,7 @@
 const { keys, filter, map, curryr, get, reduce } = require("./_");
 const users = [
   { id: 1, name: "ID", age: 11 },
+
   {
     id: 2,
     name: "asdf",
@@ -16,6 +17,7 @@ const users = [
     name: "11",
     age: 1,
   },
+  { id: 5, name: "good", age: 11 },
 ];
 
 const identity = (val) => val;
@@ -140,4 +142,18 @@ console.log("min_by", min_by([1, 2, 3, 4, 6, -11], Math.abs));
 console.log("max_by1", max_by([1, 2, 3, 4, 6, -11], Math.abs));
 console.log("max_by2", max_by(users, curryr(get)("age")));
 //   2. group_by, push
+const push = (obj, key, val) => {
+  (obj[key] = obj[key] || []).push(val);
+  return obj;
+};
+const group_by = curryr((data, iter) => {
+  return reduce(
+    data,
+    (grouped, val) => {
+      return push(grouped, iter(val), val);
+    },
+    {}
+  );
+});
+console.log("group_by", group_by(curryr(get)("name"))(users));
 //   3. count_by, inc
