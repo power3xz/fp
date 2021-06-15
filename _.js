@@ -58,3 +58,7 @@ const reduce = (list, iter, memo) => {
   return memo;
 };
 module.exports.reduce = reduce;
+
+const keys = (obj) => Object.keys(obj);
+
+module.exports.keys = keys;
