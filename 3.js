@@ -157,3 +157,18 @@ const group_by = curryr((data, iter) => {
 });
 console.log("group_by", group_by(curryr(get)("name"))(users));
 //   3. count_by, inc
+const inc = (count, key) => {
+  count[key] ? count[key]++ : (count[key] = 1);
+  return count;
+};
+const count_by = curryr((data, iter) => {
+  return reduce(
+    data,
+    (count, val) => {
+      return inc(count, iter(val));
+    },
+    {}
+  );
+});
+
+console.log("count_by", count_by(curryr(get)("age"))(users));
