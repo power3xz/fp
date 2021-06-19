@@ -1,6 +1,8 @@
 const _ = require("partial-js");
 // 지연 평가를 시작 시키고 유지 시키는(이어가는) 함수
 
+// 소팅의 경우에는 지연평가가 가능한지?
+
 // 1. map
 // 2. filter, reject
 {
