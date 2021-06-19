@@ -1,0 +1,24 @@
+{
+  "name": "fp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1.js",
+  "dependencies": {
+    "partial-js": "^1.1.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/power3xz/fp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/power3xz/fp/issues"
+  },
+  "homepage": "https://github.com/power3xz/fp#readme"
+}
