@@ -123,8 +123,16 @@ const comments2 = _.go(
 );
 console.log(comments2);
 
-const posts2 = _.go(
-  _.map(posts, (post) => {
+const posts2 = _.map(posts, (post) => {
+  return {
+    ...post,
+    comments: comments2[post.id] || [],
+    user: users2[post.user_id],
+  };
+});
+
+const posts3 = _.go(
+  _.map(posts2, (post) => {
     return {
       ...post,
       comments: comments2[post.id] || [],
@@ -133,15 +141,50 @@ const posts2 = _.go(
   }),
   _.group_by("user_id")
 );
-console.log(posts2);
+console.log(posts3);
 
 const users3 = _.map(users2, (user) => {
   return {
     ...user,
-    posts: posts2[user.id] || [],
+    posts: posts3[user.id] || [],
   };
 });
 
 console.log(users3);
 
-// 5.1
+// 5.1 특정인의 posts의 모든 comments 거르기
+const user = users3[0];
+console.log(user.posts, _.deep_pluck("posts.comments"));
+
+// 5.2 특정인의 posts에 comments를 단 친구의 이름을 뽑기
+_.go(
+  user.posts,
+  _.pluck("comments"),
+  _.flatten,
+  _.pluck("user"),
+  _.pluck("name"),
+  _.uniq,
+  console.log
+);
+
+_.go(user, _.deep_pluck("posts.comments.user.name"), _.uniq, console.log);
+
+// 5.3 특정인의 posts에 comments를 단 친구들 카운트 정보
+_.go(
+  user.posts,
+  _.pluck("comments"),
+  _.flatten,
+  _.pluck("user"),
+  _.pluck("name"),
+  _.count_by,
+  console.log
+);
+
+_.go(user, _.deep_pluck("posts.comments.user.name"), _.count_by, console.log);
+
+// 5.4 특정인이 comment를 단 posts 거르기
+console.log(
+  _.filter(posts2, (post) => {
+    return _.find(post.comments, (comment) => comment.user_id === 105);
+  })
+);
