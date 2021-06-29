@@ -108,4 +108,29 @@ _.go(
   console.log
 );
 
-// 5. users + posts + comments (index_by
+// 5. users + posts + comments (index_by와 group_by로 효율 높이기)
+const users2 = _.index_by(users, "id");
+const find_user_by_id = (user_id) => {
+  return users2[user_id];
+};
+
+const comments2 = _.go(
+  comments,
+  _.map((comment) => {
+    return {
+      ...comment,
+      user: find_user_by_id(comment.user_id),
+    };
+  }),
+  _.group_by("post_id")
+);
+console.log(comments2);
+
+const posts2 = _.map(posts, (post) => {
+  return {
+    ...post,
+    comments: comments2[post.id],
+    user: find_user_by_id(post.user_id),
+  };
+});
+console.log(posts2);
