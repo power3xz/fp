@@ -74,11 +74,9 @@ const comments_by_posts = _.pipe(_.pluck("id"), (post_ids) => {
   });
 });
 
-const f1 = _.pipe(posts_by, comments_by_posts);
-
 // 1. 특정인의 posts의 모든 comments 거르기
-
-_.go(f1({ user_id: 101 }), console.log);
+const f1 = _.pipe(posts_by, comments_by_posts);
+console.log(f1({ user_id: 101 }));
 
 // 2. 특정인의 posts에 comments를 단 친구의 이름들 뽑기
 
@@ -98,3 +96,16 @@ const f3 = _.pipe(f1, comments_to_user_names, _.count_by);
 console.log(f3({ user_id: 101 }));
 
 // 4. 특정인이 comments를 단 posts 거르기
+_.go(
+  _.where(comments, { user_id: 105 }),
+  _.pluck("post_id"),
+  _.uniq,
+  (post_ids) => {
+    return _.filter(posts, (post) => {
+      return _.contains(post_ids, post.id);
+    });
+  },
+  console.log
+);
+
+// 5. users + posts + comments (index_by
