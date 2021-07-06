@@ -25,7 +25,7 @@ const products = [
   {
     is_selected: true,
     name: "후드티",
-    price: 10000,
+    price: 21000,
     sizes: [
       {
         name: "L",
@@ -71,5 +71,25 @@ _.go(
   products,
   _.filter((product) => product.is_selected),
   total_quantity,
+  console.log
+);
+
+// 3. 모든 가격
+const total_price = _.reduce((sum, product) => {
+  return _.reduce(
+    product.sizes,
+    (sum, size) => {
+      return sum + (size.price + product.price) * size.quantity;
+    },
+    sum
+  );
+}, 0);
+_.go(products, total_price, console.log);
+
+// 4. 선택 된 총가격
+_.go(
+  products,
+  _.filter((product) => product.is_selected),
+  total_price,
   console.log
 );
